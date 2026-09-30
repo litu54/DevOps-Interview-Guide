@@ -1,0 +1,14 @@
+YOE > 5+
+
+Difference between API gateway and  Application Gateway
+Explain EKS upgrade steps, using Kubectl commands 
+Architect the highly available and scalable infrastructure 
+Where do you store secretes 
+If secretes updated will need to restart the application
+Explain blue green deployment 
+Explain your MLOPS CI/CD 
+What are monitoring tool you worked on
+How do you roll back your deployment
+Explain your CI/CD
+Your secrets is stored in AWS secrets , during gitops CD deployment how they will get those secretes
+In k8s how container level metrics will send to prometheus  (option 1: App exports metricslocalhost:8080/metrics (Prometheus format)Option 2: cAdvisor (kubelet)kubelet:10250/metrics)
