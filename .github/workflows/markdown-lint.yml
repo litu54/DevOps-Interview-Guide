@@ -1,0 +1,79 @@
+name: Markdown Lint & Format
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: markdown-lint-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  MARKDOWNLINT_VERSION: "0.23.2"
+
+jobs:
+  lint:
+    name: Lint changed markdown
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24"
+
+      - name: Collect markdown files changed in this PR
+        id: changed
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          set -euo pipefail
+          # ACMR: added, copied, modified, renamed — deleted files can't be linted.
+          git diff --name-only --diff-filter=ACMR "origin/${BASE_REF}...HEAD" -- '*.md' > changed.txt
+          COUNT=$(wc -l < changed.txt | tr -d ' ')
+          echo "count=${COUNT}" >> "$GITHUB_OUTPUT"
+          echo "### Markdown files changed: ${COUNT}" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${COUNT}" -gt 0 ]; then
+            sed 's/^/- /' changed.txt >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Lint and format check (markdownlint)
+        if: steps.changed.outputs.count != '0'
+        run: |
+          set -euo pipefail
+          # Read-loop rather than mapfile: portable, and keeps paths with spaces intact.
+          FILES=()
+          while IFS= read -r f; do FILES+=("$f"); done < changed.txt
+          npx --yes "markdownlint-cli2@${MARKDOWNLINT_VERSION}" "${FILES[@]}"
+
+      - name: Explain how to fix
+        if: failure()
+        run: |
+          cat >> "$GITHUB_STEP_SUMMARY" <<EOF
+
+          ---
+          ### How to fix
+
+          Almost everything here auto-fixes. From the repository root:
+
+          \`\`\`bash
+          npx --yes markdownlint-cli2@${MARKDOWNLINT_VERSION} --fix "**/*.md"
+          \`\`\`
+
+          Rules that would rewrite list numbering are disabled in
+          \`.markdownlint-cli2.jsonc\`, so \`--fix\` will not renumber your
+          questions. It only touches whitespace, blank lines, and markdown
+          correctness.
+
+          \`MD040 fenced-code-language\` is the one rule that cannot auto-fix:
+          add a language tag to the code fence, for example \`\`\`bash or
+          \`\`\`text for plain output.
+          EOF

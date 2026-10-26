@@ -1,0 +1,294 @@
+/* =============================================================================
+   Site styles on top of Material. Colours come from Material's own variables so
+   light and dark schemes both work without separate rules.
+   ============================================================================= */
+
+:root {
+  --iv-radius: 0.6rem;
+  --iv-soft: color-mix(in srgb, var(--md-primary-fg-color) 7%, transparent);
+  --iv-softer: color-mix(in srgb, var(--md-primary-fg-color) 4%, transparent);
+  --iv-line: color-mix(in srgb, var(--md-default-fg-color) 14%, transparent);
+}
+
+[data-md-color-scheme="slate"] {
+  --iv-soft: color-mix(in srgb, var(--md-primary-fg-color) 18%, transparent);
+  --iv-softer: color-mix(in srgb, var(--md-primary-fg-color) 10%, transparent);
+}
+
+/* Slightly wider reading area than the default 61rem, still well short of edge-to-edge. */
+.md-grid {
+  max-width: 68rem;
+}
+
+.md-typeset {
+  font-size: 0.8rem;
+  line-height: 1.7;
+}
+
+.md-typeset h1 {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.6em;
+}
+
+.md-typeset h2 {
+  font-weight: 600;
+  padding-top: 0.4em;
+  border-top: 1px solid var(--iv-line);
+}
+
+.md-typeset h1 + h2,
+.md-typeset .iv-meta + h2 {
+  border-top: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Interview pages: question lists
+   Each top-level item is a question, so give it room and a hover cue that
+   makes it easy to keep your place in a long list.
+   --------------------------------------------------------------------------- */
+
+.md-content__inner > ol > li,
+.md-content__inner > ul > li {
+  margin-bottom: 0.55em;
+  padding: 0.15em 0.5em;
+  border-radius: 0.35rem;
+  transition: background-color 120ms ease;
+}
+
+.md-content__inner > ol > li:hover,
+.md-content__inner > ul > li:hover {
+  background-color: var(--iv-softer);
+}
+
+.md-typeset ol li::marker {
+  color: var(--md-primary-fg-color);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.md-typeset ul li::marker {
+  color: var(--md-primary-fg-color);
+}
+
+/* ---------------------------------------------------------------------------
+   Summary strip under each interview title
+   --------------------------------------------------------------------------- */
+
+.md-typeset .iv-meta ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 1.4rem;
+  padding: 0;
+  list-style: none;
+}
+
+.md-typeset .iv-meta li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 0;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.7rem;
+  border: 1px solid var(--iv-line);
+  border-radius: 999px;
+  background: var(--iv-softer);
+}
+
+.md-typeset .iv-meta li:hover {
+  background: var(--iv-soft);
+}
+
+.md-typeset .iv-meta .twemoji {
+  color: var(--md-primary-fg-color);
+}
+
+/* ---------------------------------------------------------------------------
+   Cards (home page and company pages)
+   --------------------------------------------------------------------------- */
+
+.md-typeset .grid.cards > ul > li {
+  border-radius: var(--iv-radius);
+  border-color: var(--iv-line);
+  transition: border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+}
+
+.md-typeset .grid.cards > ul > li:hover {
+  border-color: var(--md-primary-fg-color);
+  box-shadow: var(--md-shadow-z2);
+  transform: translateY(-1px);
+}
+
+.md-typeset .grid.cards code {
+  font-size: 0.65rem;
+  margin: 0.1rem 0.1rem 0 0;
+  display: inline-block;
+}
+
+.md-typeset .grid.cards .lg {
+  font-size: 1.6em;
+  vertical-align: middle;
+  margin-right: 0.3rem;
+  color: var(--md-primary-fg-color);
+}
+
+.md-typeset .grid.stats {
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+}
+
+.md-typeset .grid.stats > ul > li {
+  font-size: 0.85rem;
+  text-align: left;
+}
+
+.md-typeset .grid.stats strong {
+  font-size: 1.3em;
+}
+
+.md-typeset .grid.topics {
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: 0.5rem;
+}
+
+.md-typeset .grid.topics > ul > li {
+  padding: 0;
+}
+
+.md-typeset .grid.topics a {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 0.8rem;
+  color: var(--md-default-fg-color);
+}
+
+.md-typeset .grid.topics .twemoji {
+  color: var(--md-primary-fg-color);
+}
+
+.md-typeset .count {
+  margin-left: auto;
+  padding: 0 0.45rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  border-radius: 999px;
+  background: var(--iv-soft);
+  color: var(--md-primary-fg-color);
+}
+
+/* ---------------------------------------------------------------------------
+   Companies A–Z index
+   --------------------------------------------------------------------------- */
+
+.md-typeset .company-index {
+  columns: 3 14rem;
+  column-gap: 2rem;
+}
+
+.md-typeset .company-index h2 {
+  break-after: avoid;
+  margin: 0.8em 0 0.3em;
+  padding-top: 0;
+  border-top: none;
+  font-size: 0.9rem;
+  color: var(--md-primary-fg-color);
+}
+
+.md-typeset .company-index ul {
+  break-inside: avoid;
+  margin: 0 0 0.8em;
+  padding: 0;
+  list-style: none;
+}
+
+.md-typeset .company-index li {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  margin-left: 0;
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.3rem;
+}
+
+.md-typeset .company-index li:hover {
+  background: var(--iv-softer);
+}
+
+/* ---------------------------------------------------------------------------
+   Home page hero
+   --------------------------------------------------------------------------- */
+
+.md-typeset .hero {
+  margin: 0 0 1.6rem;
+  padding: 1.8rem 1.6rem;
+  border-radius: var(--iv-radius);
+  background:
+    radial-gradient(120% 140% at 0% 0%, var(--iv-soft), transparent 60%),
+    var(--iv-softer);
+  border: 1px solid var(--iv-line);
+}
+
+.md-typeset .hero h1 {
+  margin: 0 0 0.4em;
+  font-size: 1.9rem;
+}
+
+.md-typeset .hero p {
+  max-width: 42rem;
+  margin: 0 0 1em;
+  font-size: 0.9rem;
+}
+
+.md-typeset .hero .md-button {
+  margin: 0.2rem 0.4rem 0.2rem 0;
+}
+
+/* Tags page: the hierarchy adds a bare "topic" / "role" / "company" level above
+   the real tags, which only repeats the section heading. */
+.md-typeset h3[id="tag:topic"],
+.md-typeset h3[id="tag:role"],
+.md-typeset h3[id="tag:company"] {
+  display: none;
+}
+
+.md-typeset h3[id="tag:topic"] + ul,
+.md-typeset h3[id="tag:role"] + ul,
+.md-typeset h3[id="tag:company"] + ul {
+  margin-left: 0;
+}
+
+.md-typeset h3[id^="tag:"] + ul > li[style] {
+  margin-left: 0;
+}
+
+/* Tag chips at the top of each page; "interview" is on every page, so drop it. */
+.md-typeset .md-tag {
+  font-size: 0.65rem;
+}
+
+.md-typeset .md-tag-shadow {
+  display: none;
+}
+
+@media screen and (max-width: 44.984375em) {
+  .md-typeset .hero {
+    padding: 1.2rem 1rem;
+  }
+
+  .md-typeset .hero h1 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .md-typeset .grid.cards > ul > li,
+  .md-content__inner li {
+    transition: none;
+  }
+
+  .md-typeset .grid.cards > ul > li:hover {
+    transform: none;
+  }
+}

@@ -1,0 +1,37 @@
+{
+  // Lint + format rules for interview-question markdown.
+  //
+  // markdownlint is the ONLY formatter here, on purpose. Prettier was evaluated
+  // and rejected: it renumbers ordered lists, which silently rewrote the
+  // question numbering in 22 of 152 files (one file collapsed 192 numbered
+  // questions to all "1."). In this repo the numbering is content, not style.
+  //
+  // Every rule left enabled below is safe to `--fix` automatically: it only
+  // touches whitespace, blank lines, and markdown correctness.
+  "config": {
+    "default": true,
+
+    // --- Disabled: these rewrite list structure, i.e. the content itself ---
+    "MD029": false, // ol-prefix: would renumber questions
+    "MD030": false, // list-marker-space: churns indentation of every item
+    "MD007": false, // ul-indent: same
+    "MD004": false, // ul-style: bullet char is not worth a repo-wide rewrite
+
+    // --- Disabled: deliberate house style for long-form Q&A ---
+    "MD013": false, // line-length: answers are long-form, wrapping hurts diffs
+    "MD036": false, // no-emphasis-as-heading: **Q:** / **A:** is the style here
+    "MD033": false, // no-inline-html: <details> blocks are used for answers
+    "MD041": false, // first-line-heading: not every fragment starts with an h1
+    "MD024": { "siblings_only": true }, // repeated headings OK across sections
+
+    // --- Enforced (all auto-fixable except MD040) ---
+    // MD012 no-multiple-blanks, MD032 blanks-around-lists, MD034 no-bare-urls,
+    // MD009 trailing-spaces, MD047 single-trailing-newline, MD001
+    // heading-increment, MD040 fenced-code-language, and the rest of defaults.
+  },
+  // NOTE: deliberately no "globs" key. markdownlint-cli2 UNIONS config globs
+  // with the file arguments it is given, so setting it here would make the CI
+  // job lint the whole repo even though it passes only the PR's changed files.
+  // Scope is always controlled by the caller: `markdownlint-cli2 "**/*.md"`.
+  "ignores": ["node_modules/**"]
+}

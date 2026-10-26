@@ -1,0 +1,9 @@
+# MkDocs build output
+site/
+
+# Python virtualenv used for previewing the site locally
+.venv/
+__pycache__/
+
+# Obsidian workspace state (docs/ opens as a vault)
+docs/.obsidian/workspace*.json
